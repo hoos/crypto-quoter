@@ -1,5 +1,9 @@
 DATA_DIR=data
 
+dt=`date '+%d/%m/%Y_%H:%M:%S'`
+
+echo "CRYPTO QUOTER -  $dt"
+
 # Binance USD
 curl -s https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT > ./$DATA_DIR/BINANACE_BTCUSDT.json
 symbol=`cat $DATA_DIR/BINANACE_BTCUSDT.json | jq .symbol`
@@ -52,3 +56,7 @@ curl -s --location --request GET https://api.p2pb2b.io/api/v1/public/ticker?mark
 price=`jq '.result.ask' ./$DATA_DIR/P2PB2B.json`
 echo "P2PB2B: SYMBOL=BTC_USD price=$price"
 
+#MXC
+curl -s https://www.mxc.ceo/open/api/v1/data/ticker?market=BTC_USDT > ./$DATA_DIR/MXC.json
+price=`jq '.data.buy' ./$DATA_DIR/MXC.json`
+echo "MXC: SYMBOL=BTC_USDT price=$price"
