@@ -58,5 +58,15 @@ echo "P2PB2B: SYMBOL=BTC_USD price=$price"
 
 #MXC
 curl -s https://www.mxc.ceo/open/api/v1/data/ticker?market=BTC_USDT > ./$DATA_DIR/MXC.json
-price=`jq '.data.buy' ./$DATA_DIR/MXC.json`
+price=`jq '.data.last' ./$DATA_DIR/MXC.json`
 echo "MXC: SYMBOL=BTC_USDT price=$price"
+
+#COINEGG
+curl -s https://api.coinegg.vip/api/v1/ticker/region/usdt?coin=btc > ./$DATA_DIR/COINEGG.json
+price=`jq '.last' ./$DATA_DIR/COINEGG.json`
+echo "COINEGG: SYMBOL=BTC_USDT price=$price"
+
+#COINEAL
+curl -s https://exchange-open-api.coineal.com/open/api/get_ticker?symbol=btcusdt > ./$DATA_DIR/COINEAL.json
+price=`jq '.data.last' ./$DATA_DIR/COINEAL.json`
+echo "COINEAL: SYMBOL=BTCUSDT price=$price"
