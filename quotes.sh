@@ -103,7 +103,7 @@ symbolusd="BTCUSDT"
 curl -s https://api.vindax.com/api/v1/returnTicker?symbol=BTCUSDT > ./$DATA_DIR/${exchange}_${symbolusb}.json
 priceusd=`jq '.[].last' ./$DATA_DIR/${exchange}_${symbolusb}.json`
 priceusd=$(strip_quotes "$priceusd")
-symbolusd="BTCGBPT"
+symbolgbp="BTCGBPT"
 print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" 
 
 #P2PB2B
@@ -112,35 +112,50 @@ symbolusd="BTC_USD"
 curl -s --location --request GET https://api.p2pb2b.io/api/v1/public/ticker?market=BTC_USD > ./$DATA_DIR/${exchange}_${symbolusb}.json
 priceusd=`jq '.result.ask' ./$DATA_DIR/${exchange}_${symbolusb}.json`
 priceusd=$(strip_quotes "$priceusd")
-symbolusd="BTCGBPT"
+symbolgbp="BTC_GBPT"
 print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" 
 
 #MXC
-curl -s https://www.mxc.ceo/open/api/v1/data/ticker?market=BTC_USDT > ./$DATA_DIR/MXC_BTC_USDT.json
-priceusd=`jq '.data.last' ./$DATA_DIR/MXC_BTC_USDT.json`
+exchange="MXC" 
+symbolusd="BTC_USDT"
+curl -s https://www.mxc.ceo/open/api/v1/data/ticker?market=BTC_USDT > ./$DATA_DIR/${exchange}_${symbolusb}.json
+priceusd=`jq '.data.last' ./$DATA_DIR/${exchange}_${symbolusb}.json`
 priceusd=$(strip_quotes "$priceusd")
-echo "MXC:          BTC_USDT=$priceusd"
+symbolgbp="BTC_GBPT"
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" 
 
 #COINEGG
-curl -s https://api.coinegg.vip/api/v1/ticker/region/usdt?coin=btc > ./$DATA_DIR/COINEGG_BTC.json
-priceusd=`jq '.last' ./$DATA_DIR/COINEGG_BTC.json`
+exchange="COINEGG" 
+symbolusd="BTC_USDT"
+curl -s https://api.coinegg.vip/api/v1/ticker/region/usdt?coin=btc > ./$DATA_DIR/${exchange}_${symbolusb}.json
+priceusd=`jq '.last' ./$DATA_DIR/${exchange}_${symbolusb}.json`
 priceusd=$(strip_quotes "$priceusd")
-echo "COINEGG:      BTC_USDT=$priceusd"
+symbolgbp="BTC_GBPT"
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" 
 
 #COINEAL
-curl -s https://exchange-open-api.coineal.com/open/api/get_ticker?symbol=btcusdt > ./$DATA_DIR/COINEAL_BTCUSDT.json
-priceusd=`jq '.data.last' ./$DATA_DIR/COINEAL_BTCUSDT.json`
+exchange="COINEAL" 
+symbolusd="BTCUSDT"
+curl -s https://exchange-open-api.coineal.com/open/api/get_ticker?symbol=btcusdt > ./$DATA_DIR/${exchange}_${symbolusb}.json
+priceusd=`jq '.data.last ' ./$DATA_DIR/${exchange}_${symbolusb}.json`
 priceusd=$(strip_quotes "$priceusd")
-echo "COINEAL:      BTCUSDT=$priceusd"
+symbolgbp="BTCGBPT"
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" 
 
 #IDAX
-curl -s https://openapi.idax.pro/api/v2/ticker?pair=BTC_USDT > ./$DATA_DIR/IDAX_BTC_USDT.json
-priceusd=`jq '.ticker[].last' ./$DATA_DIR/IDAX_BTC_USDT.json`
+exchange="IDAX" 
+symbolusd="BTC_USDT"
+curl -s https://openapi.idax.pro/api/v2/ticker?pair=BTC_USDT > ./$DATA_DIR/${exchange}_${symbolusb}.json
+priceusd=`jq '.ticker[].last' ./$DATA_DIR/${exchange}_${symbolusb}.json`
 priceusd=$(strip_quotes "$priceusd")
-echo "IDAX:         BTC_USDT=$priceusd"
+symbolgbp="BTC_GBPT"
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" 
 
 #FATBTC
-curl -s https://www.fatbtc.com/m/trade/BTCUSDT/1/`date +%s` > ./$DATA_DIR/FATBTC_BTCUSDT.json
-priceusd=`jq '.trades[].price' ./$DATA_DIR/FATBTC_BTCUSDT.json`
+exchange="FATBTC" 
+symbolusd="BTCUSDT"
+curl -s https://www.fatbtc.com/m/trade/BTCUSDT/1/`date +%s` > ./$DATA_DIR/${exchange}_${symbolusb}.json
+priceusd=`jq '.trades[].price' ./$DATA_DIR/${exchange}_${symbolusb}.json`
 priceusd=$(strip_quotes "$priceusd")
-echo "FATBTC:       BTCUSDT=$priceusd"
+symbolgbp="BTC_GBPT"
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" 
