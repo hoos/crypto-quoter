@@ -2,6 +2,7 @@ DATA_DIR=data
 
 dt=`date '+%d/%m/%Y_%H:%M:%S'`
 gbpusd=`curl -s https://www.freeforexapi.com/api/live?pairs=GBPUSD | jq .rates.GBPUSD.rate`
+symbolbtcusdbgp="BTCUSDGBP"
 
 echo "CRYPTO QUOTER - LAST ASK -  $dt"
 echo
@@ -13,7 +14,11 @@ function strip_quotes() {
 }
 
 function print_quote() {
-  printf "%-15s%s=%-15s\t%s=%s\n" "$1" "$2" "$3" "$4" "$5"
+  printf "%-15s%s=%-15s\t%s=%-20s\t%-10s=%s\n" "$1" "$2" "$3" "$4" "$5" "$6" "$7"
+}
+
+function usdgbp() {
+   echo $(expr $1/$2 | bc)
 }
 
 # Binance USD
@@ -23,7 +28,8 @@ symbolgbp="BTCGBPT"
 curl -s https://api.binance.com/api/v3/ticker/price?symbol=$symbolusd > ./$DATA_DIR/${exchange}_${symbolusd}.json
 priceusd=`jq .price $DATA_DIR/${exchange}_${symbolusd}.json`
 priceusd=$(strip_quotes "$priceusd")
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A"
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
+
 
 #Kraken
 exchange="KRAKEN" 
@@ -36,7 +42,8 @@ symbolgbp="XXBTZGBP"
 curl -s https://api.kraken.com/0/public/Ticker?pair=$symbolgbp > ./$DATA_DIR/${exchange}_${symbolgbp}.json
 pricegbp=`jq .result.XXBTZGBP.a[0] ./$DATA_DIR/${exchange}_${symbolgbp}.json`
 pricegbp=$(strip_quotes "$pricegbp")
-print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp
+btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
+print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp
 
 #Bitstamp
 exchange="BITSTAMP" 
@@ -49,7 +56,7 @@ priceusd=$(strip_quotes "$priceusd")
 #priceeur=`cat ./$DATA_DIR/BITSTAMP_BTCEUR.json | jq '.last'`
 #priceeur=$(strip_quotes "$priceeur")
 symbolgbp="BTCGBP"
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A"
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
 
 #Huobi-Global
 exchange="HUOBI-GLOBAL" 
@@ -57,7 +64,7 @@ symbolusd="BTCUSDT"
 curl -s https://api.huobi.pro/market/detail/merged?symbol=btcusdt > ./$DATA_DIR/${exchange}_${symbolusd}.json
 priceusd=`jq .tick.ask[0] ./$DATA_DIR/${exchange}_${symbolusd}.json`
 priceusd=$(strip_quotes "$priceusd")
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A"
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
 
 #BITFINEX
 exchange="BITFINEX" 
@@ -70,7 +77,8 @@ symbolgbp="BTCGBP"
 curl -s --request GET --url https://api.bitfinex.com/v1/pubticker/btcgbp > ./$DATA_DIR/${exchange}_${symbolgbp}.json
 pricegbp=`jq .last_price ./$DATA_DIR/${exchange}_${symbolgbp}.json`
 pricegbp=$(strip_quotes "$pricegbp")
-print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp
+btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
+print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp
 
 #WIREX
 exchange="WIREX" 
@@ -83,7 +91,8 @@ symbolgbp="BTCGBP"
 curl -s https://api.wirexapp.com/public/ticker > ./$DATA_DIR/${exchange}_${symbolgbp}.json
 pricegbp=`jq '.rates[] | select(.ticker == "BTC/GBP") | .ask' ./$DATA_DIR/${exchange}_${symbolgbp}.json`
 pricegbp=$(strip_quotes "$pricegbp")
-print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp
+btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
+print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp
 
 #COINBASEPRO
 exchange="COINBASEPRO" 
@@ -95,7 +104,8 @@ symbolusd="BTC-GBP"
 curl -s https://api.pro.coinbase.com/products/BTC-GBP/book  > ./$DATA_DIR/${exchange}_${symbolgbp}.json
 pricegbp=`jq .asks[0][0]  ./$DATA_DIR/${exchange}_${symbolgbp}.json`
 pricegbp=$(strip_quotes "$pricegbp")
-print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp
+btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
+print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp
 
 #VINDAX
 exchange="VINDAX" 
@@ -104,7 +114,7 @@ curl -s https://api.vindax.com/api/v1/returnTicker?symbol=BTCUSDT > ./$DATA_DIR/
 priceusd=`jq '.[].last' ./$DATA_DIR/${exchange}_${symbolusb}.json`
 priceusd=$(strip_quotes "$priceusd")
 symbolgbp="BTCGBPT"
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" 
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
 
 #P2PB2B
 exchange="P2PB2B" 
@@ -113,7 +123,7 @@ curl -s --location --request GET https://api.p2pb2b.io/api/v1/public/ticker?mark
 priceusd=`jq '.result.ask' ./$DATA_DIR/${exchange}_${symbolusb}.json`
 priceusd=$(strip_quotes "$priceusd")
 symbolgbp="BTC_GBPT"
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" 
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
 
 #MXC
 exchange="MXC" 
@@ -122,7 +132,7 @@ curl -s https://www.mxc.ceo/open/api/v1/data/ticker?market=BTC_USDT > ./$DATA_DI
 priceusd=`jq '.data.last' ./$DATA_DIR/${exchange}_${symbolusb}.json`
 priceusd=$(strip_quotes "$priceusd")
 symbolgbp="BTC_GBPT"
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" 
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
 
 #COINEGG
 exchange="COINEGG" 
@@ -131,7 +141,7 @@ curl -s https://api.coinegg.vip/api/v1/ticker/region/usdt?coin=btc > ./$DATA_DIR
 priceusd=`jq '.last' ./$DATA_DIR/${exchange}_${symbolusb}.json`
 priceusd=$(strip_quotes "$priceusd")
 symbolgbp="BTC_GBPT"
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" 
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
 
 #COINEAL
 exchange="COINEAL" 
@@ -140,7 +150,7 @@ curl -s https://exchange-open-api.coineal.com/open/api/get_ticker?symbol=btcusdt
 priceusd=`jq '.data.last ' ./$DATA_DIR/${exchange}_${symbolusb}.json`
 priceusd=$(strip_quotes "$priceusd")
 symbolgbp="BTCGBPT"
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" 
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
 
 #IDAX
 exchange="IDAX" 
@@ -149,7 +159,7 @@ curl -s https://openapi.idax.pro/api/v2/ticker?pair=BTC_USDT > ./$DATA_DIR/${exc
 priceusd=`jq '.ticker[].last' ./$DATA_DIR/${exchange}_${symbolusb}.json`
 priceusd=$(strip_quotes "$priceusd")
 symbolgbp="BTC_GBPT"
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" 
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
 
 #FATBTC
 exchange="FATBTC" 
@@ -158,4 +168,4 @@ curl -s https://www.fatbtc.com/m/trade/BTCUSDT/1/`date +%s` > ./$DATA_DIR/${exch
 priceusd=`jq '.trades[].price' ./$DATA_DIR/${exchange}_${symbolusb}.json`
 priceusd=$(strip_quotes "$priceusd")
 symbolgbp="BTC_GBPT"
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" 
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
