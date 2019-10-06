@@ -70,3 +70,8 @@ echo "COINEGG: SYMBOL=BTC_USDT price=$price"
 curl -s https://exchange-open-api.coineal.com/open/api/get_ticker?symbol=btcusdt > ./$DATA_DIR/COINEAL.json
 price=`jq '.data.last' ./$DATA_DIR/COINEAL.json`
 echo "COINEAL: SYMBOL=BTCUSDT price=$price"
+
+#IDAX
+curl -s https://openapi.idax.pro/api/v2/ticker?pair=BTC_USDT > ./$DATA_DIR/IDAX.json
+price=`jq '.ticker[].last' ./$DATA_DIR/IDAX.json`
+echo "IDAX: SYMBOL=BTC_USDT price=$price"
