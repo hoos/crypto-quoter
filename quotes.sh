@@ -1,30 +1,48 @@
 DATA_DIR=data
 
 dt=`date '+%d/%m/%Y_%H:%M:%S'`
+gbpusd=`curl -s https://www.freeforexapi.com/api/live?pairs=GBPUSD | jq .rates.GBPUSD.rate`
 
 echo "CRYPTO QUOTER -  $dt"
+echo
 
 # Binance USD
 curl -s https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT > ./$DATA_DIR/BINANACE_BTCUSDT.json
 symbol=`cat $DATA_DIR/BINANACE_BTCUSDT.json | jq .symbol`
 price=`cat $DATA_DIR/BINANACE_BTCUSDT.json | jq .price`
+temp="${price%\"}"
+temp="${temp#\"}"
+price="$temp"
 echo "BINANCE: SYMBOL=$symbol PRICE=$price"
-
-# Binance GBP
-#curl -s https://api.binance.com/api/v3/ticker/price?symbol=BTCGBPT > ./$DATA_DIR/BINANACE_BTCGBPT.json
-#symbol=`cat $DATA_DIR/BINANACE_BTCGBPT.json | jq .symbol`
-#price=`cat $DATA_DIR/BINANACE_BTCGBPT.json | jq .price`
-#echo "BINANCE: SYMBOL=$symbol PRICE=$price"
 
 #Kraken
 curl -s https://api.kraken.com/0/public/Ticker?pair=XBTUSD > ./$DATA_DIR/KRAKEN_XBTUSD.json
-price=`cat ./$DATA_DIR/KRAKEN_XBTUSD.json | jq '.result.XXBTZUSD.a[0]'`
-echo "KRAKEN: SYMBOL=XXBTZUSD PRICE=$price"
+priceusd=`cat ./$DATA_DIR/KRAKEN_XBTUSD.json | jq '.result.XXBTZUSD.a[0]'`
+temp="${priceusd%\"}"
+temp="${temp#\"}"
+priceusd="$temp"
+
+curl -s https://api.kraken.com/0/public/Ticker?pair=XBTGBP > ./$DATA_DIR/KRAKEN_XBTGBP.json
+pricegbp=`cat ./$DATA_DIR/KRAKEN_XBTGBP.json | jq '.result.XXBTZGBP.a[0]'`
+temp="${pricegbp%\"}"
+temp="${temp#\"}"
+pricegbp="$temp"
+echo "KRAKEN: XBTZUSD=$priceusd XBTZGBP=$pricegbp"
 
 #Bitstamp
-curl -s https://www.bitstamp.net/api/ticker?currency_pair=btcusd > ./$DATA_DIR/BITSTAMP_BTCUSD.json
-price=`cat ./$DATA_DIR/BITSTAMP_BTCUSD.json | jq '.last'`
-echo "BITSTAMP: SYMBOL=BTCUSD PRICE=$price"
+curl -s https://www.bitstamp.net/api/v2/ticker/btcusd > ./$DATA_DIR/BITSTAMP_BTCUSD.json
+priceusd=`cat ./$DATA_DIR/BITSTAMP_BTCUSD.json | jq '.last'`
+temp="${priceusd%\"}"
+temp="${temp#\"}"
+priceusd=$temp
+
+curl -s https://www.bitstamp.net/api/v2/ticker/btceur > ./$DATA_DIR/BITSTAMP_BTCEUR.json
+priceeur=`cat ./$DATA_DIR/BITSTAMP_BTCEUR.json | jq '.last'`
+temp="${priceeur%\"}"
+temp="${temp#\"}"
+priceeur=$temp
+
+echo "BITSTAMP: BTCUSD=$priceusd BTCEUR=$priceeur"
 
 #Huobi-Global
 curl -s https://api.huobi.pro/market/detail/merged?symbol=btcusdt > ./$DATA_DIR/HUOBI_GLOBAL_BTCUSDT.json
