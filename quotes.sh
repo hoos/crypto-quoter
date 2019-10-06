@@ -1,10 +1,11 @@
 DATA_DIR=data
 
+mkdir -p $DATA_DIR
 dt=`date '+%d/%m/%Y_%H:%M:%S'`
 gbpusd=`curl -s https://www.freeforexapi.com/api/live?pairs=GBPUSD | jq .rates.GBPUSD.rate`
 symbolbtcusdbgp="BTCUSDGBP"
 
-echo "CRYPTO QUOTER - LAST ASK -  $dt"
+echo "ASK MAN CRYPTO QUOTER - LAST ASK -  $dt"
 echo
 
 function strip_quotes() {
@@ -14,7 +15,7 @@ function strip_quotes() {
 }
 
 function print_quote() {
-  printf "%-15s%s=%-15s\t%s=%-20s\t%-10s=%s\n" "$1" "$2" "$3" "$4" "$5" "$6" "$7"
+  printf "%-15s%s=%-15s\t%s=%-20s\t%-9s=%s\n" "$1" "$2" "$3" "$4" "$5" "$6" "$7"
 }
 
 function usdgbp() {
