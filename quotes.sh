@@ -22,6 +22,32 @@ function usdgbp() {
    echo $(expr $1/$2 | bc)
 }
 
+#COINBASEPRIME
+exchange="COINBASEPRIME" 
+symbolusd="BTC-USD"
+curl -s https://api.prime.coinbase.com/products/BTC-USD/ticker > ./$DATA_DIR/${exchange}_${symbolusd}.json
+priceusd=`jq .price  ./$DATA_DIR/${exchange}_${symbolusd}.json`
+priceusd=$(strip_quotes "$priceusd")
+symbolgbp="BTC-GBP"
+curl -s https://api.prime.coinbase.com/products/BTC-GBP/ticker > ./$DATA_DIR/${exchange}_${symbolgbp}.json
+pricegbp=`jq .asks[0][0]  ./$DATA_DIR/${exchange}_${symbolgbp}.json`
+pricegbp=$(strip_quotes "$pricegbp")
+btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
+print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp
+
+#COINBASEPRO
+exchange="COINBASEPRO" 
+symbolusd="BTC-USD"
+curl -s https://api.pro.coinbase.com/products/BTC-USD/book  > ./$DATA_DIR/${exchange}_${symbolusd}.json
+priceusd=`jq .asks[0][0]  ./$DATA_DIR/${exchange}_${symbolusd}.json`
+priceusd=$(strip_quotes "$priceusd")
+symbolusd="BTC-GBP"
+curl -s https://api.pro.coinbase.com/products/BTC-GBP/book  > ./$DATA_DIR/${exchange}_${symbolgbp}.json
+pricegbp=`jq .asks[0][0]  ./$DATA_DIR/${exchange}_${symbolgbp}.json`
+pricegbp=$(strip_quotes "$pricegbp")
+btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
+print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp
+
 #Kraken
 exchange="KRAKEN" 
 symbolusd="XXBTZUSD"
@@ -63,20 +89,6 @@ pricegbp=`jq '.rates[] | select(.ticker == "BTC/GBP") | .ask' ./$DATA_DIR/${exch
 pricegbp=$(strip_quotes "$pricegbp")
 btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
 print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp
-
-#COINBASEPRO
-exchange="COINBASEPRO" 
-symbolusd="BTC-USD"
-curl -s https://api.pro.coinbase.com/products/BTC-USD/book  > ./$DATA_DIR/${exchange}_${symbolusd}.json
-priceusd=`jq .asks[0][0]  ./$DATA_DIR/${exchange}_${symbolusd}.json`
-priceusd=$(strip_quotes "$priceusd")
-symbolusd="BTC-GBP"
-curl -s https://api.pro.coinbase.com/products/BTC-GBP/book  > ./$DATA_DIR/${exchange}_${symbolgbp}.json
-pricegbp=`jq .asks[0][0]  ./$DATA_DIR/${exchange}_${symbolgbp}.json`
-pricegbp=$(strip_quotes "$pricegbp")
-btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
-print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp
-
 
 # Binance Jersey
 exchange="BINANCE-JERSEY" 
