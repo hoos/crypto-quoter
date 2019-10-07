@@ -60,7 +60,7 @@ curl -s https://api.kraken.com/0/public/Ticker?pair=$symbolgbp > ./$DATA_DIR/${e
 pricegbp=`jq .result.XXBTZGBP.a[0] ./$DATA_DIR/${exchange}_${symbolgbp}.json`
 pricegbp=$(strip_quotes "$pricegbp")
 btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
-print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp
+print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp "N/A"
 
 #BITFINEX
 exchange="BITFINEX" 
