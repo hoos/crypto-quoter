@@ -48,7 +48,7 @@ pricegbp=$(strip_quotes "$pricegbp")
 btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
 print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp
 
-#Kraken
+#KRAKEN
 exchange="KRAKEN" 
 symbolusd="XXBTZUSD"
 curl -s https://api.kraken.com/0/public/Ticker?pair=$symbolusd > ./$DATA_DIR/${exchange}_${symbolusd}.json
@@ -60,7 +60,7 @@ curl -s https://api.kraken.com/0/public/Ticker?pair=$symbolgbp > ./$DATA_DIR/${e
 pricegbp=`jq .result.XXBTZGBP.a[0] ./$DATA_DIR/${exchange}_${symbolgbp}.json`
 pricegbp=$(strip_quotes "$pricegbp")
 btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
-print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp "N/A"
+print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp
 
 #BITFINEX
 exchange="BITFINEX" 
