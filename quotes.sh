@@ -22,16 +22,6 @@ function usdgbp() {
    echo $(expr $1/$2 | bc)
 }
 
-# Binance USD
-exchange="BINANCE" 
-symbolusd="BTCUSDT"
-symbolgbp="BTCGBPT"
-curl -s https://api.binance.com/api/v3/ticker/price?symbol=$symbolusd > ./$DATA_DIR/${exchange}_${symbolusd}.json
-priceusd=`jq .price $DATA_DIR/${exchange}_${symbolusd}.json`
-priceusd=$(strip_quotes "$priceusd")
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
-
-
 #Kraken
 exchange="KRAKEN" 
 symbolusd="XXBTZUSD"
@@ -45,27 +35,6 @@ pricegbp=`jq .result.XXBTZGBP.a[0] ./$DATA_DIR/${exchange}_${symbolgbp}.json`
 pricegbp=$(strip_quotes "$pricegbp")
 btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
 print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp
-
-#Bitstamp
-exchange="BITSTAMP" 
-symbolusd="BTCUSD"
-curl -s https://www.bitstamp.net/api/v2/ticker/btcusd > ./$DATA_DIR/${exchange}_${symbolusd}.json
-priceusd=`jq .last ./$DATA_DIR/${exchange}_${symbolusd}.json`
-priceusd=$(strip_quotes "$priceusd")
-
-#curl -s https://www.bitstamp.net/api/v2/ticker/btceur > ./$DATA_DIR/BITSTAMP_BTCEUR.json
-#priceeur=`cat ./$DATA_DIR/BITSTAMP_BTCEUR.json | jq '.last'`
-#priceeur=$(strip_quotes "$priceeur")
-symbolgbp="BTCGBP"
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
-
-#Huobi-Global
-exchange="HUOBI-GLOBAL" 
-symbolusd="BTCUSDT"
-curl -s https://api.huobi.pro/market/detail/merged?symbol=btcusdt > ./$DATA_DIR/${exchange}_${symbolusd}.json
-priceusd=`jq .tick.ask[0] ./$DATA_DIR/${exchange}_${symbolusd}.json`
-priceusd=$(strip_quotes "$priceusd")
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
 
 #BITFINEX
 exchange="BITFINEX" 
@@ -107,6 +76,46 @@ pricegbp=`jq .asks[0][0]  ./$DATA_DIR/${exchange}_${symbolgbp}.json`
 pricegbp=$(strip_quotes "$pricegbp")
 btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
 print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp
+
+
+# Binance Jersey
+exchange="BINANCE-JERSEY" 
+symbolusd="BTCUSD"
+symbolgbp="BTCGBP"
+curl -s https://api.binance.je/api/v3/avgPrice?symbol=$symbolgbp > ./$DATA_DIR/${exchange}_${symbolgbp}.json
+pricegbp=`jq .price $DATA_DIR/${exchange}_${symbolgbp}.json`
+pricegbp=$(strip_quotes "$pricegbp")
+print_quote $exchange $symbolusd "N/A" $symbolgbp $pricegbp $symbolbtcusdbgp "N/A"
+
+# Binance USD
+exchange="BINANCE" 
+symbolusd="BTCUSDT"
+symbolgbp="BTCGBPT"
+curl -s https://api.binance.com/api/v3/ticker/price?symbol=$symbolusd > ./$DATA_DIR/${exchange}_${symbolusd}.json
+priceusd=`jq .price $DATA_DIR/${exchange}_${symbolusd}.json`
+priceusd=$(strip_quotes "$priceusd")
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
+
+#Bitstamp
+exchange="BITSTAMP" 
+symbolusd="BTCUSD"
+curl -s https://www.bitstamp.net/api/v2/ticker/btcusd > ./$DATA_DIR/${exchange}_${symbolusd}.json
+priceusd=`jq .last ./$DATA_DIR/${exchange}_${symbolusd}.json`
+priceusd=$(strip_quotes "$priceusd")
+
+#curl -s https://www.bitstamp.net/api/v2/ticker/btceur > ./$DATA_DIR/BITSTAMP_BTCEUR.json
+#priceeur=`cat ./$DATA_DIR/BITSTAMP_BTCEUR.json | jq '.last'`
+#priceeur=$(strip_quotes "$priceeur")
+symbolgbp="BTCGBP"
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
+
+#Huobi-Global
+exchange="HUOBI-GLOBAL" 
+symbolusd="BTCUSDT"
+curl -s https://api.huobi.pro/market/detail/merged?symbol=btcusdt > ./$DATA_DIR/${exchange}_${symbolusd}.json
+priceusd=`jq .tick.ask[0] ./$DATA_DIR/${exchange}_${symbolusd}.json`
+priceusd=$(strip_quotes "$priceusd")
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp "N/A"
 
 #VINDAX
 exchange="VINDAX" 

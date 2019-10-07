@@ -1,1 +1,1 @@
-curl https://api.huobi.pro/market/detail/merged?symbol=btcusdt
+curl -s -w "\n" https://api.huobi.pro/market/detail/merged?symbol=btcusdt

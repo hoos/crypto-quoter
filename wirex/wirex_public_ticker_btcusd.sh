@@ -1,1 +1,1 @@
-curl https://api.wirexapp.com/public/ticker
+curl -s -w "\n" https://api.wirexapp.com/public/ticker

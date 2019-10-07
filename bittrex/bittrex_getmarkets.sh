@@ -1,1 +1,1 @@
-curl https://api.bittrex.com/api/v1.1/public/getmarkets
+curl -s -w "\n" https://api.bittrex.com/api/v1.1/public/getmarkets
