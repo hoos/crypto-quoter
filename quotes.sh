@@ -201,3 +201,15 @@ priceusd=$(strip_quotes "$priceusd")
 symbolgbp="BTC_GBPT"
 btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
 print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp $btcusdgbp
+
+#BILAXY
+exchange="BILAXY" 
+symbolusd="BTCUSDT"
+curl -s https://api.bilaxy.com/v1/ticker?symbol=113 > ./$DATA_DIR/${exchange}_${symbolusd}.json
+priceusd=`jq '.data.sell' ./$DATA_DIR/${exchange}_${symbolusd}.json`
+priceusd=$(strip_quotes "$priceusd")
+symbolgbp="BTCGBPT"
+btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp $btcusdgbp
+
+
