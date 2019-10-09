@@ -212,4 +212,12 @@ symbolgbp="BTCGBPT"
 btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
 print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp $btcusdgbp
 
-
+#BITFOREX
+exchange="BITFOREX" 
+symbolusd="USDTBTC"
+curl -s https://api.bitforex.com/api/v1/market/ticker?symbol=coin-usdt-btc > ./$DATA_DIR/${exchange}_${symbolusd}.json
+priceusd=`jq '.data.sell' ./$DATA_DIR/${exchange}_${symbolusd}.json`
+priceusd=$(strip_quotes "$priceusd")
+symbolgbp="BTCGBPT"
+btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp $btcusdgbp
