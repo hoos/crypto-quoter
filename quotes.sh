@@ -15,11 +15,15 @@ function strip_quotes() {
 }
 
 function print_quote() {
-  printf "%-15s%s=%-15s\t%s=%-20s\t%-9s=%s\n" "$1" "$2" "$3" "$4" "$5" "$6" "$7"
+  printf "%-15s%s=%-15s\t%s=%-20s\t%-9s=%s\t"Fee:"%s\t%s\n" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
 }
 
 function usdgbp() {
    echo $(expr $1/$2 | bc)
+}
+
+function addfee() {
+   echo $(expr $1*$2 | bc)
 }
 
 #COINBASEPRIME
@@ -33,7 +37,8 @@ curl -s https://api.prime.coinbase.com/products/BTC-GBP/ticker > ./$DATA_DIR/${e
 pricegbp=`jq .price  ./$DATA_DIR/${exchange}_${symbolgbp}.json`
 pricegbp=$(strip_quotes "$pricegbp")
 btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
-print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp
+totalusd=$(addfee "1.0025" "$priceusd")
+print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp "0.25%" $totalusd 
 
 
 exchange="COINBASEPRO" 
@@ -195,7 +200,9 @@ print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp $bt
 #FATBTC
 exchange="FATBTC" 
 symbolusd="BTCUSDT"
-curl -s https://www.fatbtc.com/m/trade/BTCUSDT/1/`date +%s` > ./$DATA_DIR/${exchange}_${symbolusd}.json
+#curl -s https://www.fatbtc.com/m/trade/BTCUSDT/1/`date +%s` > ./$DATA_DIR/${exchange}_${symbolusd}.json
+TIMESTAMP=`date +%s`
+curl -s "https://www.fatbtc.com/m/trade/BTCUSDT/1/$TIMESTAMP" -H 'authority: www.fatbtc.com' -H 'cache-control: max-age=0' -H 'upgrade-insecure-requests: 1' -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36' -H 'sec-fetch-mode: navigate' -H 'sec-fetch-user: ?1' -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3' -H 'sec-fetch-site: none' -H 'accept-language: en-US,en;q=0.9' -H 'cookie: __cfduid=dffa23eb5799dfcf685b8caa274c8a6021570320591; _ga=GA1.2.834151933.1570320595; Hm_lvt_79ceeb6955b44b09df6a9c3fbb72555a=1570320596; cf_clearance=91ca8d2a5eb61e169e663680aecf56a2669f1275-1571071164-0-150' > ./$DATA_DIR/${exchange}_${symbolusd}.json
 priceusd=`jq '.trades[].price' ./$DATA_DIR/${exchange}_${symbolusd}.json`
 priceusd=$(strip_quotes "$priceusd")
 symbolgbp="BTC_GBPT"
