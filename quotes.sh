@@ -7,6 +7,7 @@ symbolbtcusdbgp="BTCUSDGBP"
 
 echo "ASK MAN CRYPTO QUOTER - LAST ASK - GBPUSD=$gbpusd- $dt"
 echo
+printf "\e[1;38m%-15s\t%-30s\t%-25s\t%-15s\t%-5s\t%-10s\e[0m\t\n" "EXCHNAGE" "BTCUSD" "BTCGBP" "BTCUSDGBP" "FEE" "TOTALUSD"
 
 function strip_quotes() {
   temp="${1%\"}"
@@ -15,7 +16,7 @@ function strip_quotes() {
 }
 
 function print_quote() {
-  printf "%-15s%s=%-15s\t%s=%-20s\t%-9s=%s\t"Fee:"%s\t%s\n" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
+  printf "%-15s\t%-8s = %-15s\t%-8s = %-20s\t%-9s=%s\t%s\t%s\n" "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
 }
 
 function usdgbp() {
