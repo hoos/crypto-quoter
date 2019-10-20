@@ -7,7 +7,7 @@ symbolbtcusdbgp="BTCUSDGBP"
 
 echo "ASK MAN CRYPTO QUOTER - LAST ASK - GBPUSD=$gbpusd- $dt"
 echo
-printf "\e[1;38m%-15s\t%-26s\t%-31s\t%-20s\t%-10s\t%-10s\e[0m\t\n" "EXCHNAGE" "BTCUSD" "BTCGBP" "BTCUSDGBP" "FEE" "TOTALUSD"
+printf "\e[1;38m%-15s\t%-26s\t%-31s\t%-20s\t%-10s\t%-15s\e[0m\t\n" "EXCHNAGE" "BTCUSD" "BTCGBP" "BTCUSDGBP" "FEE" "TOTALUSD"
 
 function strip_quotes() {
   temp="${1%\"}"
@@ -246,3 +246,13 @@ btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
 totalusd=$(addfee "1.001" "$priceusd")
 print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp $btcusdgbp "0.1%" $totalusd
 
+#GEMINI
+exchange="GEMINI" 
+symbolusd="BTCUSD"
+curl -s -w "\n" https://api.gemini.com/v1/pubticker/btcusd > ./$DATA_DIR/${exchange}_${symbolusd}.json
+priceusd=`jq '.ask' ./$DATA_DIR/${exchange}_${symbolusd}.json`
+priceusd=$(strip_quotes "$priceusd")
+symbolgbp="BTCGBP"
+btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
+totalusd=$(addfee "1.0025" "$priceusd")
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp $btcusdgbp "0.25%" $totalusd
