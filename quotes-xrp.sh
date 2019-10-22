@@ -215,26 +215,26 @@ print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolxrpusdbgp $xr
 #print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolxrpusdbgp $xrpusdgbp "0.2%" $totalusd
 
 #BILAXY
-exchange="BILAXY" 
-symbolusd="XRPUSDT"
-curl -s https://api.bilaxy.com/v1/ticker?symbol=113 > ./$DATA_DIR/${exchange}_${symbolusd}.json
-priceusd=`jq '.data.sell' ./$DATA_DIR/${exchange}_${symbolusd}.json`
-priceusd=$(strip_quotes "$priceusd")
-symbolgbp="XRPGBPT"
-xrpusdgbp=$(usdgbp "$priceusd" "$gbpusd")
-totalusd=$(addfee "1.0015" "$priceusd")
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolxrpusdbgp $xrpusdgbp "0.15%" $totalusd
-
-#BITFOREX
-#exchange="BITFOREX" 
-#symbolusd="USDTXRP"
-#curl -s https://api.bitforex.com/api/v1/market/ticker?symbol=coin-usdt-xrp > ./$DATA_DIR/${exchange}_${symbolusd}.json
+#exchange="BILAXY" 
+#symbolusd="XRPUSDT"
+#curl -s https://api.bilaxy.com/v1/ticker?symbol=113 > ./$DATA_DIR/${exchange}_${symbolusd}.json
 #priceusd=`jq '.data.sell' ./$DATA_DIR/${exchange}_${symbolusd}.json`
 #priceusd=$(strip_quotes "$priceusd")
 #symbolgbp="XRPGBPT"
 #xrpusdgbp=$(usdgbp "$priceusd" "$gbpusd")
-#totalusd=$(addfee "1.001" "$priceusd")
-#print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolxrpusdbgp $xrpusdgbp "0.1%" $totalusd
+#totalusd=$(addfee "1.0015" "$priceusd")
+#print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolxrpusdbgp $xrpusdgbp "0.15%" $totalusd
+
+#BITFOREX
+exchange="BITFOREX" 
+symbolusd="USDTXRP"
+curl -s https://api.bitforex.com/api/v1/market/ticker?symbol=coin-usdt-xrp > ./$DATA_DIR/${exchange}_${symbolusd}.json
+priceusd=`jq '.data.sell' ./$DATA_DIR/${exchange}_${symbolusd}.json`
+priceusd=$(strip_quotes "$priceusd")
+symbolgbp="XRPGBPT"
+xrpusdgbp=$(usdgbp "$priceusd" "$gbpusd")
+totalusd=$(addfee "1.001" "$priceusd")
+print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolxrpusdbgp $xrpusdgbp "0.1%" $totalusd
 
 #GEMINI
 #exchange="GEMINI" 
