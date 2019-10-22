@@ -56,14 +56,14 @@ print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolxrpusdbgp
 
 #KRAKEN
 exchange="KRAKEN" 
-symbolusd="XXBTZUSD"
+symbolusd="XXRPZUSD"
 curl -s https://api.kraken.com/0/public/Ticker?pair=$symbolusd > ./$DATA_DIR/${exchange}_${symbolusd}.json
-priceusd=`jq .result.XXBTZUSD.a[0] ./$DATA_DIR/${exchange}_${symbolusd}.json`
+priceusd=`jq .result.XXRPZUSD.a[0] ./$DATA_DIR/${exchange}_${symbolusd}.json`
 priceusd=$(strip_quotes "$priceusd")
 
-symbolgbp="XXBTZGBP"
+symbolgbp="XXRPZGBP"
 curl -s https://api.kraken.com/0/public/Ticker?pair=$symbolgbp > ./$DATA_DIR/${exchange}_${symbolgbp}.json
-pricegbp=`jq .result.XXBTZGBP.a[0] ./$DATA_DIR/${exchange}_${symbolgbp}.json`
+pricegbp=`jq .result.XXRPZGBP.a[0] ./$DATA_DIR/${exchange}_${symbolgbp}.json`
 pricegbp=$(strip_quotes "$pricegbp")
 xrpusdgbp=$(usdgbp "$priceusd" "$gbpusd")
 totalusd=$(addfee "1.0026" "$priceusd")
@@ -226,15 +226,15 @@ totalusd=$(addfee "1.0015" "$priceusd")
 print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolxrpusdbgp $xrpusdgbp "0.15%" $totalusd
 
 #BITFOREX
-exchange="BITFOREX" 
-symbolusd="USDTXRP"
-curl -s https://api.bitforex.com/api/v1/market/ticker?symbol=coin-usdt-xrp > ./$DATA_DIR/${exchange}_${symbolusd}.json
-priceusd=`jq '.data.sell' ./$DATA_DIR/${exchange}_${symbolusd}.json`
-priceusd=$(strip_quotes "$priceusd")
-symbolgbp="XRPGBPT"
-xrpusdgbp=$(usdgbp "$priceusd" "$gbpusd")
-totalusd=$(addfee "1.001" "$priceusd")
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolxrpusdbgp $xrpusdgbp "0.1%" $totalusd
+#exchange="BITFOREX" 
+#symbolusd="USDTXRP"
+#curl -s https://api.bitforex.com/api/v1/market/ticker?symbol=coin-usdt-xrp > ./$DATA_DIR/${exchange}_${symbolusd}.json
+#priceusd=`jq '.data.sell' ./$DATA_DIR/${exchange}_${symbolusd}.json`
+#priceusd=$(strip_quotes "$priceusd")
+#symbolgbp="XRPGBPT"
+#xrpusdgbp=$(usdgbp "$priceusd" "$gbpusd")
+#totalusd=$(addfee "1.001" "$priceusd")
+#print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolxrpusdbgp $xrpusdgbp "0.1%" $totalusd
 
 #GEMINI
 #exchange="GEMINI" 
