@@ -146,15 +146,15 @@ totalusd=$(addfee "1.0070" "$priceusd")
 print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp $btcusdgbp "0.7%" $totalusd
 
 #VINDAX
-exchange="VINDAX" 
-symbolusd="BTCUSDT"
-curl -s https://api.vindax.com/api/v1/returnTicker?symbol=BTCUSDT > ./$DATA_DIR/${exchange}_${symbolusd}.json
-priceusd=`jq '.[].last' ./$DATA_DIR/${exchange}_${symbolusd}.json`
-priceusd=$(strip_quotes "$priceusd")
-symbolgbp="BTCGBPT"
-btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
-totalusd=$(addfee "1.0005" "$priceusd")
-print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp $btcusdgbp "0.05%" $totalusd
+#exchange="VINDAX" 
+#symbolusd="BTCUSDT"
+#curl -s https://api.vindax.com/api/v1/returnTicker?symbol=BTCUSDT > ./$DATA_DIR/${exchange}_${symbolusd}.json
+#priceusd=`jq '.[].last' ./$DATA_DIR/${exchange}_${symbolusd}.json`
+#priceusd=$(strip_quotes "$priceusd")
+#symbolgbp="BTCGBPT"
+#btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
+#totalusd=$(addfee "1.0005" "$priceusd")
+#print_quote $exchange $symbolusd $priceusd $symbolgbp "N/A" $symbolbtcusdbgp $btcusdgbp "0.05%" $totalusd
 
 #P2PB2B
 exchange="P2PB2B" 
