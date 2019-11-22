@@ -7,7 +7,7 @@ symbolxrpusdbgp="XRPUSDGBP"
 
 echo "ASK MAN CRYPTO QUOTER - LAST ASK - GBPUSD=$gbpusd- $dt"
 echo
-printf "\e[1;38m%-15s\t%-26s\t%-31s\t%-20s\t%-10s\t%-15s\e[0m\t\n" "EXCHNAGE" "XRPUSD" "XRPGBP" "XRPUSDGBP" "FEE" "TOTALUSD"
+printf "\e[1;38m%-15s\t%-26s\t%-31s\t%-20s\t%-10s\t%-15s\e[0m\t\n" "EXCHANGE" "XRPUSD" "XRPGBP" "XRPUSDGBP" "FEE" "TOTALUSD"
 
 function strip_quotes() {
   temp="${1%\"}"

@@ -7,7 +7,7 @@ symbolbtcusdbgp="BTCUSDGBP"
 
 echo "ASK MAN CRYPTO QUOTER - LAST ASK - GBPUSD=$gbpusd- $dt"
 echo
-printf "\e[1;38m%-15s\t%-26s\t%-31s\t%-20s\t%-10s\t%-15s\e[0m\t\n" "EXCHNAGE" "BTCUSD" "BTCGBP" "BTCUSDGBP" "FEE" "TOTALUSD"
+printf "\e[1;38m%-15s\t%-26s\t%-31s\t%-20s\t%-10s\t%-15s\e[0m\t\n" "EXCHANGE" "BTCUSD" "BTCGBP" "BTCUSDGBP" "FEE" "TOTALUSD"
 
 function strip_quotes() {
   temp="${1%\"}"
@@ -41,6 +41,7 @@ btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
 totalusd=$(addfee "1.0025" "$priceusd")
 print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp "0.25%" $totalusd 
 
+#COINBASEPRO
 exchange="COINBASEPRO" 
 symbolusd="BTC-USD"
 curl -s https://api.pro.coinbase.com/products/BTC-USD/book  > ./$DATA_DIR/${exchange}_${symbolusd}.json
@@ -53,6 +54,20 @@ pricegbp=$(strip_quotes "$pricegbp")
 btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
 totalusd=$(addfee "1.0025" "$priceusd")
 print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp "0.25%" $totalusd 
+
+#COINBASE
+exchange="COINBASE" 
+symbolusd="BTC-USD"
+curl -s https://api.coinbase.com/v2/prices/$symbolusd/buy  > ./$DATA_DIR/${exchange}_${symbolusd}.json
+priceusd=`jq .data.amount  ./$DATA_DIR/${exchange}_${symbolusd}.json`
+priceusd=$(strip_quotes "$priceusd")
+symbolgbp="BTC-GBP"
+curl -s  https://api.coinbase.com/v2/prices/$symbolgbp/buy  > ./$DATA_DIR/${exchange}_${symbolgbp}.json
+pricegbp=`jq .data.amount  ./$DATA_DIR/${exchange}_${symbolgbp}.json`
+pricegbp=$(strip_quotes "$pricegbp")
+btcusdgbp=$(usdgbp "$priceusd" "$gbpusd")
+totalusd=$(addfee "1.00" "$priceusd")
+print_quote $exchange $symbolusd $priceusd $symbolgbp $pricegbp $symbolbtcusdbgp $btcusdgbp "0%" $totalusd 
 
 #KRAKEN
 exchange="KRAKEN" 
